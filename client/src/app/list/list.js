@@ -109,7 +109,17 @@
     function refreshContactDisplay() {
       vm.filteredContacts = {};
 
-      allContacts.sort().forEach(function (contact) {
+      allContacts.sort(function compare(contA, contB) {
+        var a = contA.firstName.toLowerCase();
+        var b = contB.firstName.toLowerCase();
+
+        if (a < b)
+          return -1;
+        else if (a > b)
+          return 1;
+
+        return 0;
+      }).forEach(function (contact) {
 
         if (!passsesFilter(contact)) return;
 
@@ -118,6 +128,7 @@
 
         arr.push(contact);
       });
+
 
       $log.log('contacts: ', vm.filteredContacts);
     }
