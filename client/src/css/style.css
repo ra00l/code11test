@@ -25,3 +25,10 @@ html body.appBody {
 
 .req { color: red; }
 
+.groupColor {
+  display:inline-block;
+  padding-right: 5px;
+  width:10px;
+  height:10px;
+}
+

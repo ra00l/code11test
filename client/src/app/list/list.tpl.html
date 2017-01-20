@@ -15,7 +15,7 @@
     <h3>{{key | uppercase}}</h3>
     <ul>
       <li ng-repeat="contact in contactLetterList">
-        <a href="javascript:;" ng-click="vm.selectContact(contact)">{{contact.firstName | capitalize}} {{contact.lastName | uppercase }}</a>
+        <a href="javascript:;" ng-click="vm.selectContact(contact)"><span class="groupColor" ng-style="{'background-color': vm.groupColors[contact.group] || '#fff' }"></span> {{contact.firstName | capitalize}} {{contact.lastName | uppercase }}</a>
       </li>
     </ul>
   </div>

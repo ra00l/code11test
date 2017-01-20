@@ -15,8 +15,15 @@
       });
   }
 
-  function ListCtrl($log, $uibModal, serverContacts) {
+  function ListCtrl($log, $uibModal, serverContacts, ContactService) {
     var vm = this;
+
+    var colorExamples = ['#A0D300', '#EC0033', '#FFCD00', '#00B869', '#999', '#FF7300', '#004CB0', '#CC1111', '#11CCCC', '#1111CC', '#11CC11', '#F781F3', '#B40486', '#FFFF00', '#F5A9A9', '#61380B', '#21610B'];
+
+    vm.groupColors = {};
+    ContactService.getGroups().forEach(function(grp, idx) {
+      vm.groupColors[grp] = colorExamples[idx];
+    });
 
     vm.refreshContactDisplay = refreshContactDisplay;
     vm.selectContact = selectContact;
