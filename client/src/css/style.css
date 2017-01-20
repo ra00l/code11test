@@ -31,4 +31,8 @@ html body.appBody {
   width:10px;
   height:10px;
 }
+.alert {
+
+  background: white;
+}
 

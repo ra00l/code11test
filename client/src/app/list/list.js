@@ -10,12 +10,26 @@
         resolve: { //raul: I actually prefer to load the data inside the controller, because I have better control over error messages and UI (show loading, etc) but I know this is what you are expecting :)
           serverContacts: function (ContactService) {
             return ContactService.getAll();
+          },
+          checkAuth: function ($q, $state, $timeout, $rootScope) {
+            var def = $q.defer();
+            $timeout(function () {
+              if (!$rootScope.isLogged) {
+                $state.go('login');
+                def.reject();
+              } else {
+                def.resolve();
+              }
+            });
+
+            return def.promise;
           }
         }
       });
   }
 
-  function ListCtrl($log, $uibModal, serverContacts, ContactService) {
+  function ListCtrl($log, $state, $uibModal, serverContacts, ContactService, checkAuth) { //leave check auth here
+
     var vm = this;
 
     var colorExamples = ['#A0D300', '#EC0033', '#FFCD00', '#00B869', '#999', '#FF7300', '#004CB0', '#CC1111', '#11CCCC', '#1111CC', '#11CC11', '#F781F3', '#B40486', '#FFFF00', '#F5A9A9', '#61380B', '#21610B'];

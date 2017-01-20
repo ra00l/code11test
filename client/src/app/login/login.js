@@ -10,7 +10,7 @@
       });
   }
 
-  function LoginCtrl($state) {
+  function LoginCtrl($state, $rootScope) {
     var vm = this;
     //home.data = data.data;
 
@@ -24,6 +24,8 @@
       }
 
       vm.hasError = false;
+
+      $rootScope.isLogged = true;
 
       //validation OK, redirect
       $state.go('list');

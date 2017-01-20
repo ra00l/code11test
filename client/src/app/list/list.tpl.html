@@ -6,7 +6,8 @@
   <div class="clearfix"></div>
 
   <div class="alert alert-info" ng-show="vm.filter.name || vm.filter.group">
-    The list of contacts is filtered! <a href="javascript:;" ng-click="vm.removeFilters()">Click here to remove filters</a>
+    <p>The list of contacts is filtered by <b>{{ (vm.filter.name ? 'name: ' + vm.filter.name : '') + (vm.filter.group ? ' group: ' + vm.filter.group : '' ) }}</b></p>
+    <a href="javascript:;" ng-click="vm.removeFilters()">Click here to remove filters</a>
   </div>
 
   <hr class="clearfix" />
