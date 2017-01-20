@@ -1,0 +1,49 @@
+[
+{
+  "firstName": "al",
+  "lastName": "pacino",
+  "group": "friends"
+},
+{
+"firstName": "alain",
+"lastName": "delon",
+"group": "friends"
+},
+{
+"firstName": "anthony",
+"lastName": "hopkins",
+"group": "work"
+},
+{
+"firstName": "brad",
+"lastName": "pitt",
+"group": "friends"
+
+},
+{
+"firstName": "joaquin",
+"lastName": "phoenix",
+"group": "work"
+},
+{
+"firstName": "matt",
+"lastName": "damon",
+"group": "friends"
+},
+{
+"firstName": "michael",
+"lastName": "caine",
+"group": "others"
+},
+{
+"firstName": "morgan",
+"lastName": "freeman",
+"group": "work"
+
+},
+{
+"firstName": "tommy",
+"lastName": "lee jones",
+"group": "family"
+}
+]

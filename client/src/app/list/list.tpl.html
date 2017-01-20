@@ -1,0 +1,27 @@
+<div>
+<div class="col-sm-3 bordered">
+  <input type="text" ng-model="vm.filterName"  ng-change="vm.refreshContactDisplay()" placeholder="filter ... " class="form-control" />
+  <a href="javascript:;" class="advFilter clearfix">advanced filter</a>
+
+  <hr />
+
+  <div class="list" ng-repeat="(key,contactLetterList) in vm.filteredContacts">
+    <h3>{{key | uppercase}}</h3>
+    <ul>
+      <li ng-repeat="contact in contactLetterList">
+        <a href="javascript:;" ng-click="vm.selectContact(contact)">{{contact.firstName | capitalize}} {{contact.lastName | uppercase }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="col-sm-8" ng-show="vm.selectedContact">
+    <h1>{{vm.selectedContact.firstName | capitalize}} {{vm.selectedContact.lastName | uppercase }}</h1>
+    <p>{{vm.selectedContact.phoneNo}}</p>
+    <p>{{vm.selectedContact.group}}</p>
+
+</div>
+<div class="col-sm-8" ng-hide="vm.selectedContact">
+  <h2>Please select a contact on the left side, or create one!</h2>
+</div>
+</div>

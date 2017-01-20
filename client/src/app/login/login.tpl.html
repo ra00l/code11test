@@ -1,0 +1,20 @@
+<div class="col-sm-6">
+  <fieldset>
+    <legend>Login</legend>
+
+    <div class="alert alert-danger" ng-show="vm.hasError">
+      Fields <b>User</b> and <b>Password</b> are both required!
+    </div>
+
+    <div class="form-group">
+      <label>User: <span class="req"></span></label>
+      <input class="form-control" ng-model="vm.user" />
+    </div>
+    <div class="form-group">
+      <label>Password: <span class="req"></span></label>
+      <input class="form-control" type="password" ng-model="vm.pass" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-click="vm.doLogin()">Login</button>
+  </fieldset>
+</div>
