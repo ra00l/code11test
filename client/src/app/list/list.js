@@ -7,22 +7,100 @@
         url: '/list',
         templateUrl: 'src/app/list/list.tpl.html',
         controller: 'ListCtrl as vm',
-        resolve: {
-			serverContacts: function(ContactService) {
-				return ContactService.getAll();
-			}
+        resolve: { //raul: I actually prefer to load the data inside the controller, because I have better control over error messages and UI (show loading, etc) but I know this is what you are expecting :)
+          serverContacts: function (ContactService) {
+            return ContactService.getAll();
+          }
         }
       });
   }
 
-  function ListCtrl(ContactService, $log, serverContacts) {
+  function ListCtrl($log, $uibModal, serverContacts) {
     var vm = this;
+
     vm.refreshContactDisplay = refreshContactDisplay;
     vm.selectContact = selectContact;
+    vm.editContact = editContact;
+    vm.removeContact = removeContact;
+    //vm.formatContactName = formatContactName; todo later, if time
+    vm.showAdvancedFilter = showAdvancedFilter;
+    vm.removeFilters = removeFilters;
 
     var allContacts = serverContacts;
+    vm.filter = {};
     refreshContactDisplay();
 
+    function removeFilters() {
+      vm.filter = {};
+
+      refreshContactDisplay();
+    }
+
+    function removeContact(contact) {
+      if (!confirm('Are you sure you want to remove ' + contact.firstName + ' ' + contact.lastName + ' ?'))
+        return;
+
+      var cidx = allContacts.indexOf(contact);
+      if (cidx > -1) {
+        allContacts.splice(cidx, 1);
+
+        //todo: send data to server + on OK do next:
+        vm.selectedContact = null;
+
+        refreshContactDisplay();
+      }
+    }
+
+    function showAdvancedFilter() {
+      $uibModal.open({
+        backdrop: true,
+        size: 'lg',
+        templateUrl: 'src/app/advancedFilter/advFilter.tpl.html',
+        controller: 'AdvancedFilterCtrl',
+        controllerAs: 'vm',
+        resolve: {
+          filterData: function () {
+            return vm.filter;
+          }
+        }
+      }).result.then(function (res) {
+        //copy props
+        vm.filter.name = res.name;
+        vm.filter.group = res.group;
+
+        refreshContactDisplay();
+
+      }, function () {
+        $log.log('modal dismissed!');
+      })
+    }
+
+    function editContact(contact) {
+      $uibModal.open({
+        backdrop: true,
+        size: 'lg',
+        templateUrl: 'src/app/contact/contact.tpl.html',
+        controller: 'ContactCtrl',
+        controllerAs: 'vm',
+        resolve: {
+          contact: function () {
+            return contact;
+          }
+        }
+      }).result.then(function (res) {
+        //copy props
+        var firstNameChanged = contact.firstName != res.firstName;
+        contact.firstName = res.firstName;
+        contact.lastName = res.lastName;
+        contact.group = res.group;
+
+        if (firstNameChanged)
+          refreshContactDisplay();
+
+      }, function () {
+        $log.log('modal dismissed!');
+      });
+    }
 
     function selectContact(contact) {
       vm.selectedContact = contact;
@@ -31,12 +109,12 @@
     function refreshContactDisplay() {
       vm.filteredContacts = {};
 
-		allContacts.sort().forEach(function(contact) {
+      allContacts.sort().forEach(function (contact) {
 
-        if(!passsesFilter(contact)) return;
+        if (!passsesFilter(contact)) return;
 
         var arr = vm.filteredContacts[contact.firstName[0]];
-        if(!arr) arr = vm.filteredContacts[contact.firstName[0]] = [];
+        if (!arr) arr = vm.filteredContacts[contact.firstName[0]] = [];
 
         arr.push(contact);
       });
@@ -45,8 +123,14 @@
     }
 
     function passsesFilter(contact) { //raul: angular trims the filter. if it ends with space, bad luck buddy!
-      if(!vm.filterName) return true;
-      return ((contact.firstName || '').toLowerCase() + ' ' + (contact.lastName || '').toLowerCase()).indexOf(vm.filterName) > -1;
+      var passed = true;
+      if (vm.filter.name)
+        passed = ((contact.firstName || '').toLowerCase() + ' ' + (contact.lastName || '').toLowerCase()).indexOf(vm.filter.name) > -1;
+
+      if (vm.filter.group)
+        passed = passed && contact.group === vm.filter.group;
+
+      return passed;
     }
   }
 

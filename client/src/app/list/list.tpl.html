@@ -1,9 +1,15 @@
 <div>
 <div class="col-sm-3 bordered">
-  <input type="text" ng-model="vm.filterName"  ng-change="vm.refreshContactDisplay()" placeholder="filter ... " class="form-control" />
-  <a href="javascript:;" class="advFilter clearfix">advanced filter</a>
+  <input type="text" ng-model="vm.filter.name"  ng-change="vm.refreshContactDisplay()" placeholder="filter ... " class="form-control" />
+  <a href="javascript:;" class="advFilter clearfix" ng-click="vm.showAdvancedFilter()">advanced filter</a>
 
-  <hr />
+  <div class="clearfix"></div>
+
+  <div class="alert alert-info" ng-show="vm.filter.name || vm.filter.group">
+    The list of contacts is filtered! <a href="javascript:;" ng-click="vm.removeFilters()">Click here to remove filters</a>
+  </div>
+
+  <hr class="clearfix" />
 
   <div class="list" ng-repeat="(key,contactLetterList) in vm.filteredContacts">
     <h3>{{key | uppercase}}</h3>
@@ -13,12 +19,19 @@
       </li>
     </ul>
   </div>
+
+  <button class="btn btn-default" ng-click="vm.editContact()">Add new contact</button>
 </div>
 
 <div class="col-sm-8" ng-show="vm.selectedContact">
     <h1>{{vm.selectedContact.firstName | capitalize}} {{vm.selectedContact.lastName | uppercase }}</h1>
     <p>{{vm.selectedContact.phoneNo}}</p>
     <p>{{vm.selectedContact.group}}</p>
+
+    <div class="toolbar clearfix col-sm-12">
+      <button class="btn btn-primary" ng-click="vm.editContact(vm.selectedContact);">Edit Contact</button>
+      <button class="btn btn-danger" ng-click="vm.removeContact(vm.selectedContact);">Delete Contact</button>
+    </div>
 
 </div>
 <div class="col-sm-8" ng-hide="vm.selectedContact">

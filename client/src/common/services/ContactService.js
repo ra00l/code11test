@@ -15,6 +15,9 @@
         });
 
         return def.promise;
+      },
+      getGroups: function() {
+        return ['friends', 'family', 'work', 'others'];
       }
     };
   }

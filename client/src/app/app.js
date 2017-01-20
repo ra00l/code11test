@@ -10,7 +10,7 @@
     $logProvider.debugEnabled(true);
     //$httpProvider.interceptors.push('httpInterceptor');
 
-   
+
   }
 
   function run($log) {
@@ -22,8 +22,13 @@
 
   angular.module('code11app', [
       'ui.router',
+      'ui.bootstrap',
+
       'code11app.login',
       'code11app.list',
+      'code11app.detail',
+      'code11app.advFilter',
+
 	  'code11app.services',
       'code11app.filters'
       //'custom',
